@@ -159,7 +159,10 @@ def main():
     parser = setup_argparse()
     args = parser.parse_args()
 
-    # Validate input arguments (database paths)
+    # Both paths are checked for existence, but the orphan query itself
+    # runs only against db_path2, the masked copy. db_path1 is the
+    # reference the operator says the masked copy came from; nothing in
+    # the current check compares rows between the two files.
     if not validate_database_path(args.db_path1):
         sys.exit(1)
     if not validate_database_path(args.db_path2):
@@ -192,60 +195,8 @@ def main():
 if __name__ == "__main__":
     # Example usage:
     #   python main.py --db_path1 original.db --db_path2 masked.db --table_name orders --foreign_key_column customer_id --parent_table customers --parent_key_column id
-
-    # Create dummy SQLite databases (for testing)
-    # These are just examples and should NOT be included in production code.
-    # This demonstrates how to use the script.  Remove these lines in a production context.
-    import os
-
-    def create_dummy_db(db_path: str):
-        conn = sqlite3.connect(db_path)
-        cursor = conn.cursor()
-
-        # Create customers table
-        cursor.execute(
-            """
-            CREATE TABLE IF NOT EXISTS customers (
-                id INTEGER PRIMARY KEY,
-                name TEXT
-            )
-            """
-        )
-        cursor.executemany(
-            "INSERT INTO customers (id, name) VALUES (?, ?)",
-            [(1, "Alice"), (2, "Bob"), (3, "Charlie")],
-        )
-
-        # Create orders table
-        cursor.execute(
-            """
-            CREATE TABLE IF NOT EXISTS orders (
-                id INTEGER PRIMARY KEY,
-                customer_id INTEGER,
-                amount REAL,
-                FOREIGN KEY (customer_id) REFERENCES customers(id)
-            )
-            """
-        )
-        cursor.executemany(
-            "INSERT INTO orders (id, customer_id, amount) VALUES (?, ?, ?)",
-            [(101, 1, 100.00), (102, 2, 200.00), (103, 1, 150.00)],
-        )
-
-        conn.commit()
-        conn.close()
-
-    if not os.path.exists("original.db"):
-        create_dummy_db("original.db")
-
-    if not os.path.exists("masked.db"):
-        create_dummy_db("masked.db")
-        # Simulate masking by removing a customer and their order
-        conn = sqlite3.connect("masked.db")
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM orders WHERE customer_id = 3")
-        cursor.execute("DELETE FROM customers WHERE id = 3")  # Create an orphaned order.
-        conn.commit()
-        conn.close()
-
+    # An earlier version built dummy original.db and masked.db files in
+    # the caller's working directory before main ran. A read-only checker
+    # has no business creating databases next to the ones it inspects, and
+    # the leftovers could be mistaken for real data on the next run.
     main()
