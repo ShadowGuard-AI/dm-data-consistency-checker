@@ -1,3 +1,5 @@
+![Banner](banner.png)
+
 # dm-data-consistency-checker
 Verifies referential integrity across masked datasets. Useful for ensuring relationships between tables remain valid after masking, preventing data corruption and analysis errors. Uses SQL queries to check foreign key constraints. - Focused on Tools designed to generate or mask sensitive data with realistic-looking but meaningless values
 
