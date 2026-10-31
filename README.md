@@ -11,8 +11,8 @@ Verifies referential integrity across masked datasets. Useful for ensuring relat
 
 ## Parameters
 - `-h`: Show help message and exit
-- `--db_path1`: Path to the first SQLite database file.
-- `--db_path2`: Path to the second SQLite database file (masked version).
+- `--db_path1`: Path to the first SQLite database file. This file is opened and validated as a readable SQLite database holding the named table, parent table, and columns. The run exits 1 when it cannot be read or lacks them.
+- `--db_path2`: Path to the second SQLite database file (masked version). The orphan check runs on this database.
 - `--table_name`: Name of the table to check for referential integrity.
 - `--foreign_key_column`: Name of the foreign key column in the table.
 - `--parent_table`: Name of the parent table referenced by the foreign key.

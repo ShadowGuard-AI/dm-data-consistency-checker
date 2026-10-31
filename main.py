@@ -134,6 +134,36 @@ def check_referential_integrity(
     return True
 
 
+def validate_first_database(db_path: str, table_name: str, foreign_key_column: str, parent_table: str, parent_key_column: str) -> bool:
+    """Open the first database and check it holds the named tables and columns.
+
+    Returns True only when the file reads as a SQLite database and both
+    named tables exist with the named columns present.
+    """
+    try:
+        conn = sqlite3.connect(db_path)
+        try:
+            cursor = conn.cursor()
+            cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+            tables = {row[0] for row in cursor.fetchall()}
+            for table, column in ((table_name, foreign_key_column), (parent_table, parent_key_column)):
+                if table not in tables:
+                    logging.error(f"First database {db_path} does not contain table: {table}")
+                    return False
+                safe = table.replace('"', '""')
+                cursor.execute(f'PRAGMA table_info("{safe}");')
+                columns = {row[1] for row in cursor.fetchall()}
+                if column not in columns:
+                    logging.error(f"First database {db_path} table {table} does not contain column: {column}")
+                    return False
+        finally:
+            conn.close()
+    except sqlite3.Error as e:
+        logging.error(f"First database {db_path} cannot be read as a SQLite database: {e}")
+        return False
+    return True
+
+
 def validate_database_path(db_path: str) -> bool:
     """
     Validates if the provided database path exists.
@@ -159,13 +189,15 @@ def main():
     parser = setup_argparse()
     args = parser.parse_args()
 
-    # Both paths are checked for existence, but the orphan query itself
-    # runs only against db_path2, the masked copy. db_path1 is the
-    # reference the operator says the masked copy came from; nothing in
-    # the current check compares rows between the two files.
     if not validate_database_path(args.db_path1):
         sys.exit(1)
     if not validate_database_path(args.db_path2):
+        sys.exit(1)
+    # The first database is opened and validated as a readable SQLite
+    # database holding the named tables and columns. The orphan query
+    # itself still runs against db_path2, the masked copy.
+    if not validate_first_database(args.db_path1, args.table_name, args.foreign_key_column, args.parent_table, args.parent_key_column):
+        print("Data consistency check failed.")
         sys.exit(1)
 
     # Validate input arguments (table and column names). Ideally, these would
