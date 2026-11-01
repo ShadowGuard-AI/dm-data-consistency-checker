@@ -71,6 +71,11 @@ def execute_query(db_path: str, query: str) -> List[Tuple]:
         conn.close()
         return results
     except sqlite3.Error as e:
+        # An error and an empty result are both [] to the caller. The
+        # count query in the checker can therefore not tell a failed
+        # query apart from a table holding no rows, and reads both as
+        # a failed check: safe in that direction, but the log line is
+        # the only place the real cause survives.
         logging.error(f"Error executing query on {db_path}: {e}")
         return []
 
@@ -99,6 +104,11 @@ def check_referential_integrity(
     """
 
     # Build the query to find orphaned foreign keys in the masked database
+    # Everything this function checks lives inside db_path2. The first
+    # database is validated in main for readability and shape, but its
+    # rows are never compared against the masked copy, so this is an
+    # internal integrity check of the masked database, not a check
+    # that masking mapped the original keys consistently.
     query = f"""
     SELECT COUNT(*)
     FROM {table_name} t
@@ -199,6 +209,12 @@ def main():
     if not validate_first_database(args.db_path1, args.table_name, args.foreign_key_column, args.parent_table, args.parent_key_column):
         print("Data consistency check failed.")
         sys.exit(1)
+
+    # The names are validated against the first database only, then
+    # interpolated into the queries that run against the second one.
+    # A masked database missing the named table surfaces as an empty
+    # result from execute_query and a failed check, never naming the
+    # missing table as the cause.
 
     # Validate input arguments (table and column names). Ideally, these would
     # be validated against the schema of the database files, but that requires
