@@ -1,166 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dm Data Consistency Checker: what it is, how it runs, where it stops</title>
-<meta name="description" content="Dm Data Consistency Checker is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.">
-<style>
-:root {
-  --bg: #101214; --panel: #1c1f22; --ink: #eee8dc;
-  --mut: #25292d;
-  --acc: #e8b339; --acc2: #c75432;
-  --line: #1c1f22;
-}
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink);
-  font-family: Georgia, 'Times New Roman', serif; line-height: 1.55; }
-code, pre, .mono { font-family: 'Courier New', monospace; }
-a { color: var(--acc2); }
-.hero { padding: 3rem 6vw 1rem; }
-.hero img.banner { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; }
-.logo { width: 92px; height: 92px; border-radius: 18px;
-  border: 1px solid var(--line); }
-h1 { font-size: 2.4rem; margin: 0.4em 0 0.1em; }
-h2 { border-bottom: 2px solid var(--acc); padding-bottom: 0.2em;
-  margin-top: 2em; }
-.lede { font-size: 1.15rem; max-width: 62ch; }
-main { padding: 0 6vw 3rem; max-width: 1180px; margin: 0 auto; }
-.grid { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-.card { background: var(--panel); border: 1px solid var(--line);
-  border-radius: 12px; padding: 1rem 1.2rem; }
-.card.pop { animation: rise 0.7s ease both; }
-@keyframes rise { from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: none; } }
-pre.code { background: #101014; color: #e8e6df; padding: 1rem 1.2rem;
-  border-radius: 12px; overflow-x: auto; font-size: 0.86rem;
-  border-left: 5px solid var(--acc); }
-table { border-collapse: collapse; width: 100%; }
-td, th { border-bottom: 1px solid var(--line); padding: 0.45rem 0.6rem;
-  text-align: left; }
-.shots { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.shots img { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; background: #f4f1e8; }
-footer { padding: 2rem 6vw; border-top: 1px solid var(--line);
-  color: var(--mut); }
-.rail { display: flex; gap: 1.2rem; align-items: flex-start; }
-.rail nav { position: sticky; top: 1rem; min-width: 180px; }
-@media (max-width: 760px) { .rail { flex-direction: column; }
-  .rail nav { position: static; } }
-@media (prefers-reduced-motion: reduce) {
-  .card.pop { animation: none; } * { scroll-behavior: auto; } }
-</style>
-</head>
-<body class="layout-cards">
-<!-- This page exists for dm-data-consistency-checker alone: the layout (index-cards),
-     the colors, and the type were picked for this project, not
-     shared with the other project pages. The code block below is
-     copied from the file it names, line for line. If it looks
-     plain, that is because the project is plain, and I would
-     rather the page match the project than dress it up. The one
-     thing I will not do here is oversell: what this project does
-     not do is stated on the page, not hidden from it. -->
-<header class="hero">
-  <img class="logo" src="assets/logo.png" alt="Dm Data Consistency Checker logo">
-  <img class="banner" src="assets/banner.png" alt="">
-  <h1>Dm Data Consistency Checker</h1>
-  <p class="mono"><a href="https://github.com/ShadowGuard-AI/dm-data-consistency-checker">github.com/ShadowGuard-AI/dm-data-consistency-checker</a></p>
-</header>
+<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><title>dm-data-consistency-checker: The Jet Stream's Discovery Flight</title>
+<style>@font-face{font-family:Disp;src:url("fonts/BungeeHairline.ttf")}@font-face{font-family:Text;src:url("fonts/Barlow.ttf")}
+body{background:#e3e5e8;font-family:Text,sans-serif;color:#191920;margin:0}main{max-width:920px;margin:0 auto;padding:28px}
+h1,h2,h3{font-family:Disp,sans-serif;color:#4a3a6e}section{background:#f8f8f2;padding:18px 22px;margin:16px 0;border-top:3px solid #4a3a6e}
+img{max-width:100%}button{background:#f8f8f2;color:#4a3a6e;border:1px solid #8a8f98;padding:12px 20px;margin:4px;font-family:Disp,sans-serif}
+button:focus{outline:3px double #8a8f98}.strip{background:#eef0f2;border-left:4px solid #8a8f98;padding:10px 14px;margin:8px 0}
+.marker{color:#b8733c;font-weight:700}pre{white-space:pre-wrap;font-family:Text,sans-serif;background:#eef0f2;padding:14px}code{font-family:Text,sans-serif}</style></head><body><main>
+<img src="intro-banner.png" alt="Introduction banner: a pinned weather chart with one bending stream band, wind socks and rain gauges, no name anywhere">
+<h1>dm-data-consistency-checker: The Jet Stream's Discovery Flight</h1>
+<p>dm-data-consistency-checker: The Jet Stream's Discovery Flight names itself in that form throughout this page. The page is built as a plotting table read left to right, its sections laid like chart strips in sequence. Headings are set in Bungee Hairline in thunderhead violet. Reading text is set in Barlow in near black. Panels sit on a ground of rain grey lightened well toward white.</p>
+<img src="logo.png" alt="Logo: one plotted ribbon band bending once, with a copper tick at the bend"><img src="banner.png" alt="Wordmark banner: the station room, the great chart on the back wall and the name in the chart margin at the lower left">
+<img src="scene.svg" alt="Animated scene in three bands">
+<div><button type="button">Run the Integrity Check</button></div>
+<p><span>First Database</span> <span>Second Database, Masked Version</span></p>
+<h3>Two Files, One Relationship</h3><h3>Validated Before Checked</h3><h3>No Exit Promised for the Result</h3>
+<section><h2>Plate one: the job</h2><p>Verifies referential integrity across masked datasets. Useful for ensuring relationships between tables remain valid after masking, preventing data corruption and analysis errors. Uses SQL queries to check foreign key constraints. The tool sits among tools designed to generate or mask sensitive data with realistic-looking but meaningless values. No table name, column name, or file path from any real dataset appears on this page. Control names only are shown.</p></section>
+<section><h2>Plate two: usage, deliberately thin</h2><p><code>./dm-data-consistency-checker [params]</code></p><p>That is the whole usage form in the source: an executable name followed by a bracketed params placeholder. No fuller call exists in the source to copy. The working form below is therefore assembled from the parameter list and nothing else, with both database paths and every table and column name rendered as placeholders.</p><p><code>./dm-data-consistency-checker --db_path1 &lt;first_database_path&gt; --db_path2 &lt;second_database_path&gt; --table_name &lt;table_name&gt; --foreign_key_column &lt;foreign_key_column&gt; --parent_table &lt;parent_table&gt; --parent_key_column &lt;parent_key_column&gt;</code></p></section>
+<section><h2>Plate three: the seven controls as chart strips</h2>
+<div class="strip"><p><code>-h</code>: Show help message and exit</p></div>
+<div class="strip"><p><span class="marker">Validation marker.</span> <code>--db_path1</code>: Path to the first SQLite database file. This file is opened and validated as a readable SQLite database holding the named table, parent table, and columns. The run exits 1 when it cannot be read or lacks them.</p></div>
+<div class="strip"><p><span class="marker">Orphan check marker.</span> <code>--db_path2</code>: Path to the second SQLite database file (masked version). The orphan check runs on this database.</p></div>
+<div class="strip"><p><code>--table_name</code>: Name of the table to check for referential integrity.</p></div>
+<div class="strip"><p><code>--foreign_key_column</code>: Name of the foreign key column in the table.</p></div>
+<div class="strip"><p><code>--parent_table</code>: Name of the parent table referenced by the foreign key.</p></div>
+<div class="strip"><p><code>--parent_key_column</code>: Name of the primary key column in the parent table.</p></div>
+<p>Copper marks two strips only on this page, the validation strip and the orphan check strip, one accent each.</p></section>
+<section><h2>Plate four: no exit promised for the result</h2><p>No exit code is stated for a run that finds orphans. No exit code is stated for a run that finds none. No exit code is documented for the check result itself, and this page invents none. No control is marked required, no default is printed for any control, and the second database gets no validation account to match the first. The only exit statement in the source is the exit 1 attached to the first database validation. A caller routing a pipeline around exit codes deserves those blanks drawn at full size, not papered over with plausible numbers.</p></section>
+<section><h2>Install</h2><p>First the silences. The source install section states no requirements, mentions no SQLite to obtain, gives no build step, and sets no version floor. Then the one line, corrected on this site and labelled as a correction:</p><p><code>git clone https://github.com/ShadowGuard-AI/dm-data-consistency-checker</code></p><p>Correction labelled: the README prints the same line naming ShadowStrikeHQ. This site prints the hyphenated ShadowGuard-AI form. The record block at the end of this page keeps the printed spelling untouched.</p></section>
+<section><h2>License</h2><p>The repository LICENSE file holds the MIT License. Its holder line is drawn here by contour only: a pen name in full, a parenthetical given name reduced to a single initial, and an account handle. The line itself is not reproduced and the initial is not expanded. The README licence section states no terms and consists of the line Copyright (c) ShadowStrikeHQ alone, naming an organisation where a reader might expect a holder.</p></section>
+<section><h2>Final record: the live README, pinned as found</h2><pre>![Banner](banner.png)
 
-<main>
-  <section class="rail">
-    <nav aria-label="on this page">
-      <p class="mono"><a href="#run">Run it</a><br>
-      <a href="#files">The files</a><br>
-      <a href="#sheets">The sheets</a><br>
-      <a href="https://github.com/ShadowGuard-AI/dm-data-consistency-checker">The repo</a></p>
-    </nav>
-    <div>
-      <p class="lede">Dm Data Consistency Checker is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.</p>
-      <div class="grid">
-        <div class="card pop"><h3>What it is</h3>
-          <p>Dm Data Consistency Checker: 5 files, 225 counted
-          lines across Python 202, Markdown 22, Text 1. One job, done in the
-          open, in files you can read.</p></div>
-        <div class="card pop"><h3>The biggest piece</h3>
-          <p><code>main.py</code> carries the most
-          lines. If the project grows, that file is where the growth
-          lands first, for better or worse.</p></div>
-        <div class="card pop"><h3>The honest gap</h3>
-          <p>No test files yet. That is the honest gap, and the roadmap in the visuals folder says what the first one should cover.</p></div>
-      </div>
-      <section id="run">
-        <h2>Run it</h2>
-        <p>The repo README has the exact commands for this one. The
-        shape is the shape for most of my projects: clone it, read the
-        top file first so you know what will happen, then run it on
-        something you do not mind breaking.</p>
-        <p class="mono">$ git clone https://github.com/ShadowGuard-AI/dm-data-consistency-checker.git<br>$ cd dm-data-consistency-checker</p>
-      </section>
-      
-  <section aria-label="real code">
-    <h2>The code, as it sits in the repo</h2>
-    <p>From <code>main.py</code>, line 9 on. I did
-    not tidy it for the page. What you see is what the file has.</p>
-    <pre class="code"><code>
+# dm-data-consistency-checker
+Verifies referential integrity across masked datasets. Useful for ensuring relationships between tables remain valid after masking, preventing data corruption and analysis errors. Uses SQL queries to check foreign key constraints. - Focused on Tools designed to generate or mask sensitive data with realistic-looking but meaningless values
 
-def setup_argparse() -&gt; argparse.ArgumentParser:
-    &quot;&quot;&quot;
-    Sets up the argument parser for the command-line interface.
+## Install
+`git clone https://github.com/ShadowStrikeHQ/dm-data-consistency-checker`
 
-    Returns:
-        argparse.ArgumentParser: The argument parser object.
-    &quot;&quot;&quot;
-    parser = argparse.ArgumentParser(
-        description=&quot;Verifies referential integrity across masked datasets.&quot;
-    )
-    parser.add_argument(
-        &quot;--db_path1&quot;,
-        required=True,
-        help=&quot;Path to the first SQLite database file.&quot;,
-    )
-    parser.add_argument(
-        &quot;--db_path2&quot;,
-        required=True,
-        help=&quot;Path to the second SQLite database file (masked version).&quot;,
-    )</code></pre>
-  </section>
-      <section id="files">
-        <h2>The files that matter</h2>
-        <table><tr><th>File</th><th>Lines</th></tr>
-        <tr><td><code>main.py</code></td><td>202</td></tr>
-        <tr><td><code>README.md</code></td><td>22</td></tr>
-        <tr><td><code>requirements.txt</code></td><td>1</td></tr>
-        <tr><td><code>banner.png</code></td><td>0</td></tr>
-        <tr><td><code>logo.png</code></td><td>0</td></tr>
-        </table>
-        <p>Names doing the work: <span class="mono">setup_argparse, execute_query, check_referential_integrity, validate_database_path, main</span>.</p>
-      </section>
-      <section id="sheets">
-        <h2>Drawn by hand</h2>
-        <p>I sketch my projects on notebook paper so I have to
-        understand them well enough to draw them. The full set,
-        with the counts and how they were counted, is the
-        <a href="https://github.com/ShadowGuard-AI/dm-data-consistency-checker/tree/main/dm-data-consistency-checker-Visuals">dm-data-consistency-checker-Visuals</a>
-        folder in the repo. Nothing is drawn over the binder holes.
-        That is a rule, not a style.</p>
-        <div class="shots">
-          <img src="assets/architecture.png" alt="Hand drawn architecture sheet for Dm Data Consistency Checker">
-          <img src="assets/flowchart.png" alt="Hand drawn flowchart sheet for Dm Data Consistency Checker">
-          <img src="assets/product-map.png" alt="Hand drawn product map sheet for Dm Data Consistency Checker">
-        </div>
-      </section>
-    </div>
-  </section>
-</main>
-<footer>
-  <p>Dm Data Consistency Checker is one of my projects. This page was written
-  from the repo itself on 2026-10-30: the counts are the
-  repo's counts, the code is the repo's code, and the gaps are the
-  repo's gaps.</p>
-</footer>
-</body>
-</html>
+## Usage
+`./dm-data-consistency-checker [params]`
+
+## Parameters
+- `-h`: Show help message and exit
+- `--db_path1`: Path to the first SQLite database file. This file is opened and validated as a readable SQLite database holding the named table, parent table, and columns. The run exits 1 when it cannot be read or lacks them.
+- `--db_path2`: Path to the second SQLite database file (masked version). The orphan check runs on this database.
+- `--table_name`: Name of the table to check for referential integrity.
+- `--foreign_key_column`: Name of the foreign key column in the table.
+- `--parent_table`: Name of the parent table referenced by the foreign key.
+- `--parent_key_column`: Name of the primary key column in the parent table.
+
+## License
+Copyright (c) ShadowStrikeHQ</pre><p>Under the pinned sheets, a margin note marks the organisation naming in the install line and in the licence line as faulty. The sheet itself is not lifted, reprinted in altered form, or corrected in place in that record block.</p></section>
+</main></body></html>
