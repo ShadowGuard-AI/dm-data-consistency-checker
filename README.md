@@ -18,12 +18,12 @@ Verifies referential integrity across masked datasets. Useful for ensuring relat
 ![Major separator](sep-heavy.svg)
 
 ## Install
-`git clone https://github.com/ShadowStrikeHQ/dm-data-consistency-checker`
+`git clone https://github.com/ShadowGuard-AI/dm-data-consistency-checker`
 
 ![Minor separator](sep-light.svg)
 
 ## Usage
-`./dm-data-consistency-checker [params]`
+`python3 main.py [options]`
 
 > Station note: only the first database carries a stated validation and a stated exit. The file is opened and validated as a readable SQLite database holding the named table, the parent table, and the columns, and the run exits 1 when it cannot be read or lacks them.
 
@@ -45,7 +45,7 @@ Verifies referential integrity across masked datasets. Useful for ensuring relat
 ![Minor separator](sep-light.svg)
 
 ## License
-Copyright (c) ShadowStrikeHQ
+This project is released under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ![Major separator](sep-heavy.svg)
 
